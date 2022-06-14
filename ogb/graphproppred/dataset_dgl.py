@@ -10,7 +10,7 @@ from ogb.io.read_graph_dgl import read_graph_dgl
 
 class DglGraphPropPredDataset(object):
     '''Adapted from https://docs.dgl.ai/en/latest/_modules/dgl/data/chem/csv_dataset.html#CSVDataset'''
-    def __init__(self, name, root = 'dataset', meta_dict = None):
+    def __init__(self, name, root = 'dataset', meta_dict = None, check_update = True):
         '''
             - name (str): name of the dataset
             - root (str): root directory to store the dataset folder
@@ -50,7 +50,7 @@ class DglGraphPropPredDataset(object):
         # First check whether the dataset has been already downloaded or not.
         # If so, check whether the dataset version is the newest or not.
         # If the dataset is not the newest version, notify this to the user. 
-        if osp.isdir(self.root) and (not osp.exists(osp.join(self.root, 'RELEASE_v' + str(self.meta_info['version']) + '.txt'))):
+        if check_update and osp.isdir(self.root) and (not osp.exists(osp.join(self.root, 'RELEASE_v' + str(self.meta_info['version']) + '.txt'))):
             print(self.name + ' has been updated.')
             if input('Will you update the dataset now? (y/N)\n').lower() == 'y':
                 shutil.rmtree(self.root)
